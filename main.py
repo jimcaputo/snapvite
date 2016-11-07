@@ -1,10 +1,15 @@
 import argparse
+import json
 import logging
 
 from flask import Flask
+from flask import request
 from google.cloud import storage
 
 import jinja2
+
+import ds
+import sms
 
 
 app = Flask(__name__)
@@ -28,6 +33,28 @@ def upload_html():
 @app.route('/')
 def home():
     return fetch()
+
+@app.route('/send', methods=['POST'])
+def sendSnapVite():
+    data = json.loads(request.form.get('json'))
+
+    message = 'Message from ' + data['username'] + ': ' + data['message']
+
+    ds.insertSnapVite(data['username'], message, data['recipients'])
+    return 'foo'
+
+    response = 'SMS sent to: '
+    for recipient in data['recipients']:
+        if recipient == 'Jim':
+            sms.send(message, '+12063567329')
+        elif recipient == 'Kacy':
+            sms.send(message, '+12062274548')
+        response += recipient + ' '
+    return response
+
+@app.route('/show/<snapvite_id>')
+def showSnapVite(snapvite_id):
+    return ds.retrieve(snapvite_id)
 
 
 # This is used when running locally. Gunicorn is used to run the

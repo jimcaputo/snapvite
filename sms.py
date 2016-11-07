@@ -2,7 +2,7 @@ import os
 
 from twilio.rest import TwilioRestClient
 
-def sendSMS():
+def send(message, recipient):
     twilio_account_sid = os.environ.get('TWILIO_ACCOUNT_SID')
     twilio_auth_token = os.environ.get('TWILIO_AUTH_TOKEN')
     twilio_number = os.environ.get('TWILIO_NUMBER')
@@ -12,4 +12,4 @@ def sendSMS():
         return
 
     twilio_client = TwilioRestClient(twilio_account_sid, twilio_auth_token)
-    twilio_client.messages.create(body='Test Message', to='+12063567329', from_=twilio_number)
+    twilio_client.messages.create(body=message, to=recipient, from_=twilio_number)
