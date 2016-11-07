@@ -54,7 +54,15 @@ def sendSnapVite():
 
 @app.route('/show/<snapvite_id>')
 def showSnapVite(snapvite_id):
-    return ds.retrieve(snapvite_id)
+    entity = ds.retrieve(snapvite_id)
+
+    show_html = open('show.html', 'r').read()
+    return jinja2.Template(show_html).render(
+        {
+            'username': entity['username'],
+            'message': entity['message'],
+            'recipients': entity['recipients']
+        })
 
 
 # This is used when running locally. Gunicorn is used to run the

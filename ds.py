@@ -18,4 +18,4 @@ def insertSnapVite(username, message, recipients):
 def retrieve(snapvite_id):
     client = datastore.Client('snapvite-app')
     entity = client.get(client.key('SnapVite', snapvite_id))
-    return str(entity)
+    return entity

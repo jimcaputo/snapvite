@@ -13,30 +13,6 @@ function onLoad() {
     }
 }
 
-function onUserChange(username) {
-    document.cookie = "username=" + username + "; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
-}
-
-function sendInvite() {
-    var username = document.getElementById("username").value;
-    var message = document.getElementById('message').value;
-
-    var inputs = document.getElementById('recipients').getElementsByTagName('input');
-    var recipients = [];
-    for (var i = 0; i < inputs.length; i++) {
-        if (inputs[i].checked == true)
-            recipients.push(inputs[i].value);
-    }
-
-    var data = {
-        "username": username,
-        "message": message,
-        "recipients": recipients
-    };
-
-    submitRequest('/send', data);
-}
-
 function getCookie(name) {
     name += "=";
     var cookies = document.cookie.split(';');
@@ -74,6 +50,15 @@ function submitRequest(uri, data) {
     <h1>SnapVite!</h1>
     Mallard Cove Edition!
     <p>
+    Posted by: {{username}}
+    <p>
+    Message: {{message}}
+    <p>
+    Who's coming:
+    {% for recipient in recipients %}
+    {{recipient}}
+    {% endfor %}
+    <p>
     I am: &nbsp;
     <select id="username" onchange="onUserChange(this.value);">
         <option value="" disabled="true" selected="selected">Select user...</option>
@@ -90,28 +75,6 @@ function submitRequest(uri, data) {
         <option value="Steve">Steve</option>
         <option value="Tim">Tim</option>
     </select>
-    <p>
-    Who's invited:
-    <div id="recipients" style="border: 2px solid #ccc; width: 150px; height: 100px; overflow-y: scroll">
-        <input type="checkbox" value="Dean" checked/>Dean <br>
-        <input type="checkbox" value="Ed" checked/>Ed <br>
-        <input type="checkbox" value="Jane"/>Jane <br>
-        <input type="checkbox" value="Jim"/>Jim <br>
-        <input type="checkbox" value="Kacy"/>Kacy <br>
-        <input type="checkbox" value="Kelly"/>Kelly <br>
-        <input type="checkbox" value="Laura"/>Laura <br>
-        <input type="checkbox" value="Lucas"/>Lucas <br>
-        <input type="checkbox" value="Lulu"/>Lulu <br>
-        <input type="checkbox" value="Melissa"/>Melissa <br>
-        <input type="checkbox" value="Steve"/>Steve <br>
-        <input type="checkbox" value="Tim"/>Tim <br>
-    </div>
-    <p>
-    Message:
-    <p>
-    <textarea id="message" style="width: 180px; height: 80px;"></textarea>
-    <p>
-    <input type="button" value="Send SnapVite!" onclick="sendInvite();">
 </body>
 
 </html>
