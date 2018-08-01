@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- The following 2 meta tags always come first -->
+  <!-- Notify browsers this page is in Unicode -->
+  <meta charset="utf-8">
+  <!-- This site is responsive. Use full screen width. -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>SnapVite</title>
+
+  <meta name="description" content="SnapVite">
+  <meta name="keywords" content="snap invitation">  
+
+  <link rel="stylesheet" href="/web/external/spectre.min.css">
+  <link rel="stylesheet" href="/web/external/spectre-exp.min.css">
+  <link rel="stylesheet" href="/web/external/spectre-icons.min.css">
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Knewave">
+
+  <style type="text/css">
+    .pseudoLink {
+      color: blue;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+    .textInputWidthNormal {
+      width: 150px;
+    }
+  </style>
+
+  <script src="/web/external/vue.js"></script>
+</head>
+
+<body class="text-center">
+  <div class="container grid-xs">
+
+  <h2 style="margin-top: .7rem; margin-bottom: .1rem; font-family: 'Knewave', cursive">SnapVite</h2>
+
+  <div id="root" >
+    <div class="columns">
+      <div class="col-9"></div>
+      <div class="col-2">
+        <div style="text-align: right">
+          <img v-bind:src="'/media/user.png'" @click="user_onClick()"
+              class="c-hand" style="margin-top: .6rem; height: 22px">
+        </div>
+      </div>
+      <div class="col-1"></div>
+    </div>
+    <div class="divider" style="margin-bottom: 14px"></div>
+    
+  </div>
+
+  <div id="signIn" style="display: none">
+    <div class="divider" style="margin-top: 14px"></div>
+    <p>
+      First time using this device
+      <br>
+      Please verify your identity
+    </p>
+    <div class="columns">
+      <div class="col-2"></div>
+      <div class="col-4">
+        Mobile Number
+      </div>
+      <div class="col-5">
+        <input v-model="phoneNumber" class="textInputWidthNormal" type="text" maxlength="25" 
+            placeholder="206-555-1212" :disabled="vbool_verify">
+      </div>
+    </div>
+    <div class="columns" style="margin-top: .4rem">
+      <div class="col-12">
+        <button @click="register_onClick()" class="btn btn-primary" :disabled="vbool_verify">Register</button>
+      </div>
+    </div>
+  
+    <div v-if="vbool_verify">
+      <div class="divider" style="margin-top: 1.2rem; margin-bottom: .8rem"></div>
+   
+      <div class="columns">
+        <div class="col-2"></div>
+        <div class="col-4">
+          Verification Code
+        </div>
+        <div class="col-5">
+          <input v-model="verificationCode" class="textInputWidthNormal" type="text" maxlength="5" placeholder="">
+        </div>
+      </div>
+      <div class="columns" style="margin-top: .4rem">
+        <div class="col-12">
+          <button @click="verify_onClick()" class="btn btn-primary">Verify</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="userDialog" class="modal modal-sm">
+    <div class="modal-overlay"></div>
+    <div class="modal-container">
+      <div class="modal-header">
+        <div class="modal-title h5">User Account</div>
+      </div>
+      <div class="modal-body">
+        <div class="content">
+          <div class="container">
+            <div class="columns">
+              <div class="col-2"></div>
+              <div class="col-4">
+                User Name
+              </div>
+              <div class="col-5">
+                <input v-model="userName" style="width: 150px" type="text" maxlength="25" placeholder="Elwood">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div style="text-align: right; margin-top: .4rem">
+           <button v-on:click="setUserName_onClick()" class="btn btn-primary">Set User Name</button>
+           <button v-on:click="cancel_onClick()" class="btn">Cancel</button>
+        </div>
+      </div>
+      <div class="modal-footer" style="text-align: center">
+        <span v-on:click="signOut_onClick()" class="pseudoLink">Sign Out</span>
+      </div>
+    </div>
+  </div>
+
+  <div id="viteList" style="display: none">
+  </div>
+
+  <div id="infoDialog" class="modal modal-sm">
+    <div class="modal-overlay"></div>
+    <div class="modal-container">
+      <div class="modal-header">
+        <div class="modal-title h5">{{ title }}</div>
+      </div>
+      <div class="modal-body">
+        <div class="content">
+          {{ message }}
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button @click="okay_onClick()" class="btn btn-primary">Okay</button>
+      </div>
+    </div>
+  </div>
+
+  </div>
+
+  <script src="/web/util.js"></script>
+  <script src="/web/snapvite.js"></script>
+</body>
