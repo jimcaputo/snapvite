@@ -1,4 +1,4 @@
-Flask
+flask>=1.0.0
 gunicorn
 mysqlclient
 twilio
